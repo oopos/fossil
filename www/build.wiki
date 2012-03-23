@@ -1,0 +1,131 @@
+<title>Building and Installing Fossil</title>
+
+<h2>0.0 Using A Pre-compiled Binary</h2>
+
+<p>Released versions of fossil come with
+<a href="http://www.fossil-scm.org/download.html">pre-compiled binaries and
+a source archive</a> for that release. You can thus skip the following if you
+want to run or build a release version of fossil. Just download
+the appropriate package from the <a href="http://www.fossil-scm.org/download.html">downloads page</a>
+and put it on your $PATH.
+To uninstall, simply delete the binary.
+To upgrade from an older release, just overwrite the older binary with
+the newer one.</p>
+
+<h2>0.1 Executive Summary</h2>
+
+<p>Building and installing is very simple.  Three steps:</p>
+
+<ol>
+<li> Download and unpack a source tarball or ZIP.
+<li> <b>./configure; make</b>
+<li> Move or copy the resulting "fossil" executable to someplace
+     on your $PATH.
+</ol>
+
+<p><hr>
+
+<h2>1.0 Obtaining The Source Code</h2>
+
+<p>Fossil is self-hosting, so you can obtain a ZIP archive containing
+a snapshot of the <em>latest</em> version directly from fossil's own fossil
+repository. Additionally, source archives of <em>released</em> versions of
+fossil are available from the <a href="http://www.fossil-scm.org/download.html">downloads page</a>.
+To obtain a development version of fossil, follow these steps:</p>
+
+<ol>
+<li><p>Point your web browser at
+<a href="http://www.fossil-scm.org/">
+http://www.fossil-scm.org/</a>.  Click on the "Login" menu button.</p></li>
+
+<li><p>Log in as anonymous.  The password is shown on screen.
+The reason for requiring this login is to prevent spiders from
+walking the entire website, downloading ZIP archives
+of every historical version, and thereby soaking up all our bandwidth.</p></li>
+
+<li><p>Click on the 
+<a href="http://www.fossil-scm.org/fossil/timeline">Timeline</a> 
+link at the top of the page.</p></li>
+
+<li><p>Select a version of of fossil you want to download.  Click on its
+link.  Note that you must successfully log in as "anonymous" in step 1
+above in order to see the link to the detailed version information.</p></li>
+
+<li><p>Finally, click on one of the
+"Zip Archive" or "Tarball" links, according to your preference.
+These link will build a ZIP archive or a gzip-compressed tarball of the 
+complete source code and download it to your browser.
+</ol>
+
+<h2>2.0 Compiling</h2>
+
+<ol>
+<li value="6">
+<p>Unpack the ZIP or tarball you downloaded into that directory then
+<b>cd</b> into the directory created.</p></li>
+
+<li><i>(Optional, unix only)</i>
+Run <b>./configure</b> to construct a makefile.
+
+<ol type="a">
+<li><p>
+If you do not have the OpenSSL library installed on your system, then
+add <b>--with-openssl=none</b> to omit the https functionality.
+
+<li><p>
+To build a statically linked binary (suitable for use inside a chroot
+jail) add the <b>--static</b> option.
+
+<li><p>
+Other configuration options can be seen by running
+<b>./configure --help</b>
+</ol>
+
+<li><p>Run make to build the "fossil" or "fossil.exe" executable.  The
+details depend on your platform and compiler.
+
+<ol type="a">
+<li><p><i>Unix</i> &rarr; the configure-generated Makefile should work on
+all unix and unix-like systems.  Simply type "<b>make</b>".
+
+<li><p><i>Unix without running "configure"</i> &rarr; if you prefer to avoid running configure, you
+can also use: <b>make -f Makefile.classic</b>.  You may want to make minor
+edits to Makefile.classic to configure the build for your system.
+
+<li><p><i>Msys/MinGW</i> &rarr; Use the
+mingw makefile: "<b>make -f win/Makefile.mingw</b>"
+
+<li><p><i>VC++</i> &rarr; Use the msc makefile.  First
+change to the "win/" subdirectory ("<b>cd win</b>") then run
+"<b>nmake /f Makefile.msc</b>".
+</ol>
+</ol>
+
+<p>Note that Fossil requires the "zlib" compression library.  This library
+is available by default on most unix systems, but it will typically have to
+be installed separately on windows systems.  For windows builds, you may
+need to edit the makefile to tell it exactly where zlib is located on your
+system.</p>
+
+<h2>3.0 Installing</h2>
+
+<ol>
+<li value="9">
+<p>The finished binary is named "fossil" (or "fossil.exe" on windows).  
+Put this binary in a 
+directory that is somewhere on your PATH environment variable.
+It does not matter where.</p>
+
+<li>
+<p><b>(Optional:)</b>
+To uninstall, just delete the binary.</p>
+</ol>
+
+<h2>4.0 Additional Considerations</h2>
+
+</nowiki>
+  *  If the makefiles that come with Fossil do not work for
+     you, or for some other reason you want to know how to build
+     Fossil manually, then refer to the
+     [./makefile.wiki | Fossil Build Process] document which describes
+     in detail what the makefiles do behind the scenes.

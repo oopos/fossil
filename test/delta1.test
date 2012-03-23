@@ -1,0 +1,45 @@
+#
+# Copyright (c) 2006 D. Richard Hipp
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the Simplified BSD License (also
+# known as the "2-Clause License" or "FreeBSD License".)
+#
+# This program is distributed in the hope that it will be useful,
+# but without any warranty; without even the implied warranty of
+# merchantability or fitness for a particular purpose.
+#
+# Author contact information:
+#   drh@hwaci.com
+#   http://www.hwaci.com/drh/
+#
+############################################################################
+#
+# Tests of the delta mechanism.
+#
+
+# Use test script files as the basis for this test.
+#
+# For each test, copy the file intact to "./t1".  Make
+# some random changes in "./t2".  Then call test-delta on the
+# two files to make sure that deltas between these two files
+# work properly.
+#
+set filelist [glob $testdir/*]
+foreach f $filelist {
+  if {[file isdir $f]} continue
+  set base [file root [file tail $f]]
+  set f1 [read_file $f]
+  write_file t1 $f1
+  for {set i 0} {$i<100} {incr i} {
+    write_file t2 [random_changes $f1 1 1 0 0.1]
+    fossil test-delta t1 t2
+    test delta-$base-$i-1 {$RESULT=="ok"}
+    write_file t2 [random_changes $f1 1 1 0 0.2]
+    fossil test-delta t1 t2
+    test delta-$base-$i-2 {$RESULT=="ok"}
+    write_file t2 [random_changes $f1 1 1 0 0.4]
+    fossil test-delta t1 t2
+    test delta-$base-$i-3 {$RESULT=="ok"}
+  }
+}
